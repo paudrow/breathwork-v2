@@ -1,17 +1,23 @@
 import type { Signal } from "@preact/signals";
 
-function normalizeSize(size: number) {
-  return size / 3 + 1 / 3;
+// TODO find a better name for this function
+function normalizeValue(value: number, offset: number) {
+  return value / offset + 1 / offset;
 }
 
 interface BreathBoxProps {
   percentFull: Signal<number>;
   outerBoxSizeRem: number;
+  text?: string;
 }
 
-export function BreathBox({ percentFull, outerBoxSizeRem }: BreathBoxProps) {
-  const squareSize = normalizeSize(percentFull.value) * outerBoxSizeRem;
-  const bgColor = `rgba(100, 0, 200, ${normalizeSize(percentFull.value)})`;
+export function BreathBox(
+  { percentFull, outerBoxSizeRem, text }: BreathBoxProps,
+) {
+  const squareSize = normalizeValue(percentFull.value, 3) * outerBoxSizeRem;
+  const bgColor = `rgba(100, 0, 200, ${
+    0.6 - normalizeValue(percentFull.value, 5)
+  })`;
 
   return (
     <div
@@ -27,8 +33,10 @@ export function BreathBox({ percentFull, outerBoxSizeRem }: BreathBoxProps) {
           height: `${squareSize}rem`,
           backgroundColor: bgColor,
         }}
-        class="rounded-3xl"
-      />
+        class="rounded-3xl flex justify-center items-center"
+      >
+        {text ?? ""}
+      </div>
     </div>
   );
 }

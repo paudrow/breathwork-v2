@@ -46,6 +46,7 @@ export default function Home(
       <BreathBox
         percentFull={percentFull}
         outerBoxSizeRem={10}
+        text={"Inhale"}
       />
       <BreathCounter
         inhale={inhaleSignal}
