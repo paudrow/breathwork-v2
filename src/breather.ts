@@ -1,9 +1,9 @@
-export type BreatherState = "inhale" | "inhaleHold" | "exhale" | "exhaleHold";
+export type BreathState = "inhale" | "inhaleHold" | "exhale" | "exhaleHold";
 
-export interface OutputState {
+export interface BreatherState {
   percentFull: number;
-  state: BreatherState;
-  timeRemaining: number;
+  state: BreathState;
+  secondsRemaining: number;
   currentRep: number;
 }
 
@@ -20,12 +20,12 @@ export class Breather {
   private exhale: number;
   private exhaleHold: number;
 
-  private timeToEndInhale: number;
-  private timeToEndInhaleHold: number;
-  private timeToEndExhale: number;
-  private timeToEndExhaleHold: number;
+  private secondsToEndInhale: number;
+  private secondsToEndInhaleHold: number;
+  private secondsToEndExhale: number;
+  private secondsToEndExhaleHold: number;
 
-  private timePerRep: number;
+  private secondsPerRep: number;
 
   constructor(props: BreatherProps) {
     const { inhale, inhaleHold, exhale, exhaleHold } = props;
@@ -34,46 +34,52 @@ export class Breather {
     this.exhale = exhale;
     this.exhaleHold = exhaleHold;
 
-    this.timeToEndInhale = this.inhale;
-    this.timeToEndInhaleHold = this.timeToEndInhale + this.inhaleHold;
-    this.timeToEndExhale = this.timeToEndInhaleHold + this.exhale;
-    this.timeToEndExhaleHold = this.timeToEndExhale + this.exhaleHold;
+    this.secondsToEndInhale = this.inhale;
+    this.secondsToEndInhaleHold = this.secondsToEndInhale + this.inhaleHold;
+    this.secondsToEndExhale = this.secondsToEndInhaleHold + this.exhale;
+    this.secondsToEndExhaleHold = this.secondsToEndExhale + this.exhaleHold;
 
-    this.timePerRep = inhale + inhaleHold + exhale + exhaleHold;
+    this.secondsPerRep = inhale + inhaleHold + exhale + exhaleHold;
   }
 
-  getState(time: number): OutputState {
-    const rep = Math.floor(time / this.timePerRep);
-    const timeInRep = time % this.timePerRep;
+  getState(seconds: number): BreatherState {
+    const rep = Math.floor(seconds / this.secondsPerRep);
+    const secondsInRep = seconds % this.secondsPerRep;
 
-    if (timeInRep < this.timeToEndInhale) {
+    if (secondsInRep < this.secondsToEndInhale) {
       return {
-        percentFull: timeInRep / this.inhale,
+        percentFull: secondsInRep / this.inhale,
         state: "inhale",
-        timeRemaining: this.timeToEndInhale - timeInRep,
+        secondsRemaining: this.secondsToEndInhale - secondsInRep,
         currentRep: rep,
       };
-    } else if (timeInRep < this.timeToEndInhaleHold) {
+    } else if (secondsInRep < this.secondsToEndInhaleHold) {
       return {
         percentFull: 1,
         state: "inhaleHold",
-        timeRemaining: this.timeToEndInhaleHold - timeInRep,
+        secondsRemaining: this.secondsToEndInhaleHold - secondsInRep,
         currentRep: rep,
       };
-    } else if (timeInRep < this.timeToEndExhale) {
+    } else if (secondsInRep < this.secondsToEndExhale) {
       return {
-        percentFull: 1 - (timeInRep - this.timeToEndInhaleHold) / this.exhale,
+        percentFull: 1 -
+          (secondsInRep - this.secondsToEndInhaleHold) / this.exhale,
         state: "exhale",
-        timeRemaining: this.timeToEndExhale - timeInRep,
+        secondsRemaining: this.secondsToEndExhale - secondsInRep,
         currentRep: rep,
       };
     } else {
       return {
         percentFull: 0,
         state: "exhaleHold",
-        timeRemaining: this.timeToEndExhaleHold - timeInRep,
+        secondsRemaining: this.secondsToEndExhaleHold - secondsInRep,
         currentRep: rep,
       };
     }
+  }
+
+  isFinishedReps({ seconds, reps }: { seconds: number; reps: number }) {
+    const { currentRep } = this.getState(seconds);
+    return currentRep >= reps;
   }
 }

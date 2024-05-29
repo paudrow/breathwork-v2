@@ -1,7 +1,5 @@
 import { useSignal } from "@preact/signals";
 import { BreathCounter } from "../islands/BreathCounter.tsx";
-import { Slider } from "../islands/Slider.tsx";
-import { BreathBox } from "../islands/BreathBox.tsx";
 import { Handlers, PageProps } from "$fresh/server.ts";
 
 interface CombinedCounterProps {
@@ -39,22 +37,12 @@ export default function Home(
   const percentFull = useSignal(0);
 
   return (
-    <div>
-      <Slider
-        size={percentFull}
-      />
-      <BreathBox
-        percentFull={percentFull}
-        outerBoxSizeRem={10}
-        text={"Inhale"}
-      />
-      <BreathCounter
-        inhale={inhaleSignal}
-        inhaleHold={inhaleHoldSignal}
-        exhale={exhaleSignal}
-        exhaleHold={exhaleHoldSignal}
-        reps={repsSignal}
-      />
-    </div>
+    <BreathCounter
+      inhale={inhaleSignal}
+      inhaleHold={inhaleHoldSignal}
+      exhale={exhaleSignal}
+      exhaleHold={exhaleHoldSignal}
+      reps={repsSignal}
+    />
   );
 }
