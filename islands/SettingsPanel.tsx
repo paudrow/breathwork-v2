@@ -31,7 +31,15 @@ export function SettingsPanel(
         } transition-transform duration-300 ease-in-out`}
       >
         <div class="p-4">
-          <h2 class="text-xl font-bold mb-4">Settings</h2>
+          <div class="flex justify-between items-center mb-4">
+            <h2 class="text-xl font-bold">Settings</h2>
+            <button
+              class="p-2 rounded bg-red-600 text-white"
+              onClick={togglePanel}
+            >
+              Close
+            </button>
+          </div>
           <div class="mb-4">
             <label class="block mb-2">Inhale</label>
             <input
@@ -86,6 +94,22 @@ export function SettingsPanel(
               min={1}
               class="w-full p-2 border rounded"
             />
+          </div>
+          <div class="py-2" />
+          <div class="mb-4">
+            <button
+              class="w-full p-2 bg-blue-600 text-white rounded"
+              onClick={() => {
+                const url = new URL(window.location.href);
+                navigator.clipboard.writeText(url.toString()).then(() => {
+                  alert("URL copied to clipboard!");
+                }).catch((err) => {
+                  console.error("Failed to copy URL: ", err);
+                });
+              }}
+            >
+              Copy URL with parameters to clipboard
+            </button>
           </div>
         </div>
       </div>
