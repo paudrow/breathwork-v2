@@ -1,4 +1,4 @@
-import { useSignal, useSignalEffect } from "@preact/signals";
+import { useSignal } from "@preact/signals";
 import { BreathCounter } from "../islands/BreathCounter.tsx";
 import { Handlers, PageProps } from "$fresh/server.ts";
 import { SettingsPanel } from "../islands/SettingsPanel.tsx";
@@ -21,27 +21,30 @@ export const handler: Handlers<CombinedCounterProps> = {
     const exhaleHold = parseInt(url.searchParams.get("exhaleHold") || "4");
     const reps = parseInt(url.searchParams.get("reps") || "6");
 
-    let error: string | null = null
-    if (isNaN(inhale) || isNaN(inhaleHold) || isNaN(exhale) || isNaN(exhaleHold) || isNaN(reps)) {
-      error = "Invalid parameters"
+    let error: string | null = null;
+    if (
+      isNaN(inhale) || isNaN(inhaleHold) || isNaN(exhale) ||
+      isNaN(exhaleHold) || isNaN(reps)
+    ) {
+      error = "Invalid parameters";
     }
     if (inhale < 1) {
-      error = "Inhale must be 1 or greater: " + inhale
+      error = "Inhale must be 1 or greater: " + inhale;
     }
     if (inhaleHold < 0) {
-      error = "Inhale hold must be 0 or greater: " + inhaleHold
+      error = "Inhale hold must be 0 or greater: " + inhaleHold;
     }
     if (exhale < 1) {
-      error = "Exhale must be 1 or greater: " + exhale
+      error = "Exhale must be 1 or greater: " + exhale;
     }
     if (exhaleHold < 0) {
-      error = "Exhale hold must be 0 or greater: " + exhaleHold
+      error = "Exhale hold must be 0 or greater: " + exhaleHold;
     }
     if (reps < 1) {
-      error = "Reps must be 1 or greater: " + reps
+      error = "Reps must be 1 or greater: " + reps;
     }
 
-    return ctx.render({ inhale, inhaleHold, exhale, exhaleHold, reps, error});
+    return ctx.render({ inhale, inhaleHold, exhale, exhaleHold, reps, error });
   },
 };
 
