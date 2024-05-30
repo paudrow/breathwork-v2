@@ -1,6 +1,5 @@
 import { Signal, useSignal, useSignalEffect } from "@preact/signals";
-import { useEffect } from "preact/hooks";
-import { Breather, BreatherState } from "../src/breather.ts";
+import { Breather, BreatherState, BreathState } from "../src/breather.ts";
 import { BreathBox } from "./BreathBox.tsx";
 
 interface BreathCounterProps {
@@ -14,20 +13,14 @@ interface BreathCounterProps {
 export function BreathCounter(
   { inhale, inhaleHold, exhale, exhaleHold, reps }: BreathCounterProps,
 ) {
-  let breather = new Breather({
-    inhale: inhale.value,
-    inhaleHold: inhaleHold.value,
-    exhale: exhale.value,
-    exhaleHold: exhaleHold.value,
-  });
-
   const isRunning = useSignal(false);
   const secondsElapsed = useSignal(0);
 
   const breathPercentFull = useSignal(0);
-  const breathState = useSignal("");
+  const breathState = useSignal<BreathState | "">("");
   const breathRemaining = useSignal(0);
   const currentRep = useSignal(0);
+  const breather = useSignal<Breather | null>(null);
 
   let timer: number;
 
@@ -39,7 +32,9 @@ export function BreathCounter(
 
       secondsElapsed.value += msPerFrame / 1000;
 
-      const state = breather.getState(secondsElapsed.value);
+      if (!breather.value) return;
+
+      const state = breather.value.getState(secondsElapsed.value);
       breathPercentFull.value = state.percentFull;
       breathState.value = state.state;
       breathRemaining.value = state.secondsRemaining;
@@ -71,7 +66,7 @@ export function BreathCounter(
     url.searchParams.set("reps", reps.toString());
     window.history.pushState({}, "", url.toString());
 
-    breather = new Breather({
+    breather.value = new Breather({
       inhale: inhale.value,
       inhaleHold: inhaleHold.value,
       exhale: exhale.value,
@@ -85,12 +80,19 @@ export function BreathCounter(
     }
   });
 
+  const displayTextMap: Map<BreathState, string> = new Map([
+    ["inhale", "Inhale"],
+    ["inhaleHold", "Hold"],
+    ["exhale", "Exhale"],
+    ["exhaleHold", "Hold"],
+  ]);
+
   return (
     <>
       <BreathBox
-        outerBoxSizeRem={10}
+        outerBoxSizeRem={12}
         percentFull={breathPercentFull}
-        text={breathState.value}
+        text={displayTextMap.get(breathState.value as BreathState) || ""}
       />
       <div>{currentRep.value} of {reps.value}</div>
       <div class="flex gap-4">

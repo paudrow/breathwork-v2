@@ -60,8 +60,8 @@ export default function Home(
   const repsSignal = useSignal(reps);
 
   return (
-    <div class="w-full min-h-screen flex flex-col justify-center items-center bg-slate-400 p-4">
-      <div class="w-full max-w-md h-auto bg-slate-100 rounded-xl flex flex-col justify-center items-center gap-4 p-4">
+    <div class="w-full min-h-screen flex flex-col justify-center items-center bg-teal-800 p-4">
+      <div class="w-full max-w-md h-auto bg-slate-100 rounded-xl flex flex-col justify-center items-center gap-4 p-4 shadow-2xl">
         {error && <div class="text-red-500">{error}</div>}
         <BreathCounter
           inhale={inhaleSignal}
