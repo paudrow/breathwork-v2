@@ -1,6 +1,7 @@
 import { useSignal } from "@preact/signals";
 import { BreathCounter } from "../islands/BreathCounter.tsx";
 import { Handlers, PageProps } from "$fresh/server.ts";
+import { SettingsPanel } from "../islands/SettingsPanel.tsx";
 
 interface CombinedCounterProps {
   inhale: number;
@@ -34,15 +35,24 @@ export default function Home(
   const exhaleHoldSignal = useSignal(exhaleHold);
   const repsSignal = useSignal(reps);
 
-  const percentFull = useSignal(0);
-
   return (
-    <BreathCounter
-      inhale={inhaleSignal}
-      inhaleHold={inhaleHoldSignal}
-      exhale={exhaleSignal}
-      exhaleHold={exhaleHoldSignal}
-      reps={repsSignal}
-    />
+    <div class="w-full min-h-screen flex flex-col justify-center items-center bg-slate-400 p-4">
+      <div class="w-full max-w-md h-auto bg-slate-100 rounded-xl flex flex-col justify-center items-center gap-4 p-4">
+        <BreathCounter
+          inhale={inhaleSignal}
+          inhaleHold={inhaleHoldSignal}
+          exhale={exhaleSignal}
+          exhaleHold={exhaleHoldSignal}
+          reps={repsSignal}
+        />
+        <SettingsPanel
+          inhale={inhaleSignal}
+          inhaleHold={inhaleHoldSignal}
+          exhale={exhaleSignal}
+          exhaleHold={exhaleHoldSignal}
+          reps={repsSignal}
+        />
+      </div>
+    </div>
   );
 }

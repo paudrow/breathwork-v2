@@ -9,6 +9,7 @@ import * as $greet_name_ from "./routes/greet/[name].tsx";
 import * as $index from "./routes/index.tsx";
 import * as $BreathBox from "./islands/BreathBox.tsx";
 import * as $BreathCounter from "./islands/BreathCounter.tsx";
+import * as $SettingsPanel from "./islands/SettingsPanel.tsx";
 import * as $Slider from "./islands/Slider.tsx";
 import { type Manifest } from "$fresh/server.ts";
 
@@ -23,6 +24,7 @@ const manifest = {
   islands: {
     "./islands/BreathBox.tsx": $BreathBox,
     "./islands/BreathCounter.tsx": $BreathCounter,
+    "./islands/SettingsPanel.tsx": $SettingsPanel,
     "./islands/Slider.tsx": $Slider,
   },
   baseUrl: import.meta.url,

@@ -86,27 +86,24 @@ export function BreathCounter(
   });
 
   return (
-    <div class="w-full h-screen flex flex-col justify-center items-center">
-      <div class="w-1/3 h-1/2 bg-slate-200 rounded-xl flex flex-col justify-center items-center gap-4">
-        <BreathBox
-          outerBoxSizeRem={10}
-          percentFull={breathPercentFull}
-          text={breathState.value}
-        />
-        <div>{currentRep.value} of {reps.value}</div>
-        <div>{secondsElapsed.value.toFixed(0)} seconds elapsed</div>
-        <div class="flex gap-4">
-          <button class="p-4 bg-green-600 rounded" onClick={startTimer}>
-            Start
-          </button>
-          <button class="p-4 bg-yellow-600 rounded" onClick={pauseTimer}>
-            Pause
-          </button>
-          <button class="p-4 bg-red-600 rounded" onClick={stopTimer}>
-            Stop
-          </button>
-        </div>
+    <>
+      <BreathBox
+        outerBoxSizeRem={10}
+        percentFull={breathPercentFull}
+        text={breathState.value}
+      />
+      <div>{currentRep.value} of {reps.value}</div>
+      <div class="flex gap-4">
+        <button class="p-4 bg-green-600 rounded" onClick={startTimer}>
+          Start
+        </button>
+        <button class="p-4 bg-yellow-600 rounded" onClick={pauseTimer}>
+          Pause
+        </button>
+        <button class="p-4 bg-red-600 rounded" onClick={stopTimer}>
+          Stop
+        </button>
       </div>
-    </div>
+    </>
   );
 }
