@@ -60,7 +60,15 @@ export default function Home(
   const repsSignal = useSignal(reps);
 
   return (
-    <div class="w-full min-h-screen flex flex-col justify-center items-center bg-teal-800 p-4">
+    <div class="relative w-full min-h-screen flex flex-col justify-center items-center bg-teal-800 p-4">
+      <a
+        href="https://github.com/paudrow/breathwork-v2"
+        class="absolute top-4 right-4 text-white bg-gray-800 p-2 rounded"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        GitHub Project
+      </a>
       <div class="w-full max-w-md h-auto bg-slate-100 rounded-xl flex flex-col justify-center items-center gap-4 p-4 shadow-2xl">
         {error && <div class="text-red-500">{error}</div>}
         <BreathCounter
