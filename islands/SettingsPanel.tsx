@@ -1,4 +1,5 @@
 import { Signal, useSignal } from "@preact/signals";
+import { models } from "../src/models.ts";
 
 interface SettingsPanelProps {
   inhale: Signal<number>;
@@ -28,7 +29,7 @@ export function SettingsPanel(
       <div
         class={`fixed top-0 right-0 w-64 h-full bg-white shadow-lg transform ${
           isOpen.value ? "translate-x-0" : "translate-x-full"
-        } transition-transform duration-300 ease-in-out`}
+        } transition-transform duration-300 ease-in-out overflow-y-auto`}
       >
         <div class="p-4">
           <div class="flex justify-between items-center mb-4">
@@ -110,6 +111,16 @@ export function SettingsPanel(
             >
               Copy URL with parameters to clipboard
             </button>
+          </div>
+          <h2 class="text-xl font-bold my-4">Or Choose a Preset</h2>
+          <div class="flex flex-col gap-2">
+            {models.map((model) => (
+              <a href={`/${model}`} key={model}>
+                <button class="w-full p-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors duration-200">
+                  {model}
+                </button>
+              </a>
+            ))}
           </div>
         </div>
       </div>

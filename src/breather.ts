@@ -43,7 +43,7 @@ export class Breather {
   }
 
   getState(seconds: number): BreatherState {
-    const rep = Math.floor(seconds / this.secondsPerRep);
+    const rep = Math.floor(seconds / this.secondsPerRep) + 1;
     const secondsInRep = seconds % this.secondsPerRep;
 
     if (secondsInRep < this.secondsToEndInhale) {
@@ -76,10 +76,5 @@ export class Breather {
         currentRep: rep,
       };
     }
-  }
-
-  isFinishedReps({ seconds, reps }: { seconds: number; reps: number }) {
-    const { currentRep } = this.getState(seconds);
-    return currentRep >= reps;
   }
 }

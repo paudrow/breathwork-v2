@@ -19,7 +19,7 @@ export function BreathCounter(
   const breathPercentFull = useSignal(0);
   const breathState = useSignal<BreathState | "">("");
   const breathRemaining = useSignal(0);
-  const currentRep = useSignal(0);
+  const currentRep = useSignal(1);
   const breather = useSignal<Breather | null>(null);
 
   let timer: number;
@@ -49,7 +49,7 @@ export function BreathCounter(
     breathState.value = "";
     breathPercentFull.value = 0;
     breathRemaining.value = 0;
-    currentRep.value = 0;
+    currentRep.value = 1;
   }
 
   function pauseTimer() {
@@ -75,7 +75,7 @@ export function BreathCounter(
   });
 
   useSignalEffect(() => {
-    if (currentRep.value >= reps.value) {
+    if (currentRep.value > reps.value) {
       stopTimer();
     }
   });
@@ -94,7 +94,23 @@ export function BreathCounter(
         percentFull={breathPercentFull}
         text={displayTextMap.get(breathState.value as BreathState) || ""}
       />
-      <div>{currentRep.value} of {reps.value}</div>
+      <div>
+        {isRunning.value
+          ? (
+            <>
+              <strong>{currentRep.value} of {reps.value}</strong>
+            </>
+          )
+          : (
+            <>
+              <span class="font-bold">
+                {inhale.value}-{inhaleHold.value}-{exhale.value}-{exhaleHold
+                  .value}
+              </span>{" "}
+              for <strong>{reps.value}</strong> reps
+            </>
+          )}
+      </div>
       <div class="flex gap-4">
         <button class="p-4 bg-green-600 rounded" onClick={startTimer}>
           Start
