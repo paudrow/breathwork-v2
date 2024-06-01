@@ -5,13 +5,10 @@
 import * as $_model_ from "./routes/[model].tsx";
 import * as $_404 from "./routes/_404.tsx";
 import * as $_app from "./routes/_app.tsx";
-import * as $api_joke from "./routes/api/joke.ts";
-import * as $greet_name_ from "./routes/greet/[name].tsx";
 import * as $index from "./routes/index.tsx";
 import * as $BreathBox from "./islands/BreathBox.tsx";
 import * as $BreathCounter from "./islands/BreathCounter.tsx";
 import * as $SettingsPanel from "./islands/SettingsPanel.tsx";
-import * as $Slider from "./islands/Slider.tsx";
 import { type Manifest } from "$fresh/server.ts";
 
 const manifest = {
@@ -19,15 +16,12 @@ const manifest = {
     "./routes/[model].tsx": $_model_,
     "./routes/_404.tsx": $_404,
     "./routes/_app.tsx": $_app,
-    "./routes/api/joke.ts": $api_joke,
-    "./routes/greet/[name].tsx": $greet_name_,
     "./routes/index.tsx": $index,
   },
   islands: {
     "./islands/BreathBox.tsx": $BreathBox,
     "./islands/BreathCounter.tsx": $BreathCounter,
     "./islands/SettingsPanel.tsx": $SettingsPanel,
-    "./islands/Slider.tsx": $Slider,
   },
   baseUrl: import.meta.url,
 } satisfies Manifest;
