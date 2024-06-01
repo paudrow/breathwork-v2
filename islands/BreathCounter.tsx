@@ -1,5 +1,5 @@
 import { Signal, useSignal, useSignalEffect } from "@preact/signals";
-import { Breather, BreatherState, BreathState } from "../src/breather.ts";
+import { Breather, BreathState } from "../src/breather.ts";
 import { BreathBox } from "./BreathBox.tsx";
 
 interface BreathCounterProps {
